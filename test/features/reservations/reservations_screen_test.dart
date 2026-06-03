@@ -1,10 +1,11 @@
 import 'dart:async';
 
-import 'package:desktop_turn_management/app/app.dart';
 import 'package:desktop_turn_management/core/config/app_config.dart';
 import 'package:desktop_turn_management/core/realtime/realtime_source.dart';
 import 'package:desktop_turn_management/features/reservations/domain/entities/reservation.dart';
 import 'package:desktop_turn_management/features/reservations/presentation/providers/reservation_providers.dart';
+import 'package:desktop_turn_management/features/reservations/presentation/screens/reservations_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -35,6 +36,8 @@ void main() {
       ),
     ];
 
+    // Pump the screen directly (not the whole app/router): the app now starts
+    // at the login gate, so the reservations slice is exercised in isolation.
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
@@ -42,7 +45,7 @@ void main() {
           reservationsRealtimeSourceProvider
               .overrideWith((ref) => _FakeRealtimeSource(sample)),
         ],
-        child: const ReservationsManagerApp(),
+        child: const MaterialApp(home: ReservationsScreen()),
       ),
     );
     await tester.pumpAndSettle();

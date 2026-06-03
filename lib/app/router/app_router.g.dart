@@ -9,19 +9,34 @@ part of 'app_router.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 /// The app's [GoRouter], exposed as a provider so routes can depend on app
-/// state (auth, etc.) later and so it can be overridden in tests.
+/// state and be overridden in tests.
+///
+/// The flow is imperative: the login button navigates to selection, picking an
+/// organization navigates to home, and "Logout" / "Handle something else"
+/// navigate back. The home screen self-guards against being reached without a
+/// selected workspace.
 
 @ProviderFor(goRouter)
 final goRouterProvider = GoRouterProvider._();
 
 /// The app's [GoRouter], exposed as a provider so routes can depend on app
-/// state (auth, etc.) later and so it can be overridden in tests.
+/// state and be overridden in tests.
+///
+/// The flow is imperative: the login button navigates to selection, picking an
+/// organization navigates to home, and "Logout" / "Handle something else"
+/// navigate back. The home screen self-guards against being reached without a
+/// selected workspace.
 
 final class GoRouterProvider
     extends $FunctionalProvider<GoRouter, GoRouter, GoRouter>
     with $Provider<GoRouter> {
   /// The app's [GoRouter], exposed as a provider so routes can depend on app
-  /// state (auth, etc.) later and so it can be overridden in tests.
+  /// state and be overridden in tests.
+  ///
+  /// The flow is imperative: the login button navigates to selection, picking an
+  /// organization navigates to home, and "Logout" / "Handle something else"
+  /// navigate back. The home screen self-guards against being reached without a
+  /// selected workspace.
   GoRouterProvider._()
     : super(
         from: null,
@@ -55,4 +70,4 @@ final class GoRouterProvider
   }
 }
 
-String _$goRouterHash() => r'90a2dda5f42c3c5230105c99570356bf279d58ad';
+String _$goRouterHash() => r'866dfb7ae3e7c55c4ace069e9b98d5949503851a';

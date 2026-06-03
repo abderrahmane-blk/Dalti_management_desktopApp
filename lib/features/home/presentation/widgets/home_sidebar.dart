@@ -1,0 +1,208 @@
+import 'package:desktop_turn_management/features/workspaces/domain/entities/workspace.dart';
+import 'package:flutter/material.dart';
+
+/// The home shell's left navigation. It never disappears — it just narrows to
+/// an icon rail and expands back to full labels + nested items.
+///
+/// Sections:
+///  * Queues — one expandable entry per queue → Today / History /
+///    Register a walk-in / Accept future reservations.
+///  * Organization → Edit organization / Statistics.
+///  * Pinned at the bottom: Logout, Settings, Handle something else.
+///
+/// The actual destination screens are not built yet; selecting a leaf reports
+/// its label via [onSelect] and the home screen shows a placeholder.
+class HomeSidebar extends StatelessWidget {
+  const HomeSidebar({
+    super.key,
+    required this.organization,
+    required this.expanded,
+    required this.onToggle,
+    required this.onSelect,
+    required this.onSettings,
+    required this.onLogout,
+    required this.onHandleSomethingElse,
+  });
+
+  final ManagedOrganization organization;
+  final bool expanded;
+  final VoidCallback onToggle;
+
+  /// Called with the chosen destination's label (the placeholder title).
+  final ValueChanged<String> onSelect;
+  final VoidCallback onSettings;
+  final VoidCallback onLogout;
+  final VoidCallback onHandleSomethingElse;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeInOut,
+      width: expanded ? 280 : 72,
+      decoration: BoxDecoration(
+        border: Border(
+          right: BorderSide(color: Theme.of(context).dividerColor),
+        ),
+      ),
+      child: expanded ? _expandedBody(context) : _narrowBody(context),
+    );
+  }
+
+  Widget _expandedBody(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        ListTile(
+          leading: IconButton(
+            icon: const Icon(Icons.menu_open),
+            tooltip: 'Collapse',
+            onPressed: onToggle,
+          ),
+          title: Text(
+            organization.name.display,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+        ),
+        const Divider(height: 1),
+        Expanded(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              const _SectionHeader('Queues'),
+              for (final queue in organization.queues)
+                ExpansionTile(
+                  leading: const Icon(Icons.people_outline),
+                  title: Text(
+                    queue.name.display,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  childrenPadding: const EdgeInsets.only(left: 16),
+                  children: [
+                    for (final dest in _queueDestinations)
+                      ListTile(
+                        dense: true,
+                        title: Text(dest),
+                        onTap: () =>
+                            onSelect('${queue.name.display} — $dest'),
+                      ),
+                  ],
+                ),
+              const Divider(height: 1),
+              const _SectionHeader('Organization'),
+              ExpansionTile(
+                leading: const Icon(Icons.business_outlined),
+                title: Text(
+                  organization.name.display,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                childrenPadding: const EdgeInsets.only(left: 16),
+                children: [
+                  for (final dest in _orgDestinations)
+                    ListTile(
+                      dense: true,
+                      title: Text(dest),
+                      onTap: () =>
+                          onSelect('${organization.name.display} — $dest'),
+                    ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        const Divider(height: 1),
+        ListTile(
+          leading: const Icon(Icons.logout),
+          title: const Text('Logout'),
+          onTap: onLogout,
+        ),
+        ListTile(
+          leading: const Icon(Icons.settings_outlined),
+          title: const Text('Settings'),
+          onTap: onSettings,
+        ),
+        ListTile(
+          leading: const Icon(Icons.swap_horiz),
+          title: const Text('Handle something else'),
+          onTap: onHandleSomethingElse,
+        ),
+      ],
+    );
+  }
+
+  Widget _narrowBody(BuildContext context) {
+    return Column(
+      children: [
+        IconButton(
+          icon: const Icon(Icons.menu),
+          tooltip: 'Expand',
+          onPressed: onToggle,
+        ),
+        const Divider(height: 1),
+        IconButton(
+          icon: const Icon(Icons.people_outline),
+          tooltip: 'Queues',
+          onPressed: onToggle,
+        ),
+        IconButton(
+          icon: const Icon(Icons.business_outlined),
+          tooltip: 'Organization',
+          onPressed: onToggle,
+        ),
+        const Spacer(),
+        const Divider(height: 1),
+        IconButton(
+          icon: const Icon(Icons.logout),
+          tooltip: 'Logout',
+          onPressed: onLogout,
+        ),
+        IconButton(
+          icon: const Icon(Icons.settings_outlined),
+          tooltip: 'Settings',
+          onPressed: onSettings,
+        ),
+        IconButton(
+          icon: const Icon(Icons.swap_horiz),
+          tooltip: 'Handle something else',
+          onPressed: onHandleSomethingElse,
+        ),
+      ],
+    );
+  }
+
+  static const List<String> _queueDestinations = [
+    'Today',
+    'History',
+    'Register a walk-in',
+    'Accept future reservations',
+  ];
+
+  static const List<String> _orgDestinations = [
+    'Edit organization',
+    'Statistics',
+  ];
+}
+
+class _SectionHeader extends StatelessWidget {
+  const _SectionHeader(this.label);
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+      child: Text(
+        label.toUpperCase(),
+        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              letterSpacing: 0.8,
+              color: Theme.of(context).colorScheme.outline,
+            ),
+      ),
+    );
+  }
+}
