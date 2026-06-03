@@ -1,28 +1,36 @@
-# This file configures the analyzer, which statically analyzes Dart code to
-# check for errors, warnings, and lints.
+# Static analysis configuration.
 #
-# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
-# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
-# invoked from the command line by running `flutter analyze`.
-
-# The following line activates a set of recommended lints for Flutter apps,
-# packages, and plugins designed to encourage good coding practices.
+# Base ruleset: Flutter's recommended lints.
 include: package:flutter_lints/flutter.yaml
 
-linter:
-  # The lint rules applied to this project can be customized in the
-  # section below to disable rules from the `package:flutter_lints/flutter.yaml`
-  # included above or to enable additional rules. A list of all available lints
-  # and their documentation is published at https://dart.dev/lints.
-  #
-  # Instead of disabling a lint rule for the entire project in the
-  # section below, it can also be suppressed for a single line of code
-  # or a specific dart file by using the `// ignore: name_of_lint` and
-  # `// ignore_for_file: name_of_lint` syntax on the line or in the file
-  # producing the lint.
-  rules:
-    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
-    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+analyzer:
+  # Generated sources (*.g.dart, *.freezed.dart) are excluded from analysis.
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+  language:
+    strict-casts: true
+    strict-raw-types: true
 
-# Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options
+  # ── riverpod_lint / custom_lint ──────────────────────────────────────────
+  # ENABLE ONCE PUBLISHED VERSIONS SUPPORT THIS STACK.
+  #
+  # As of this writing there is no released `riverpod_lint` + `custom_lint`
+  # pair compatible with the pinned `flutter_riverpod ^3.3.1` (-> riverpod
+  # 3.2.1), `freezed_annotation ^3.1.0`, and the analyzer 12 toolchain:
+  # `riverpod_lint 3.1.4-dev.1` requires `analyzer_plugin ^0.14.0`, which no
+  # `custom_lint` release provides yet. Installing them would force a downgrade
+  # of the core Riverpod/Freezed versions, so they are intentionally omitted.
+  #
+  # To enable later (no other code changes needed):
+  #   flutter pub add dev:custom_lint dev:riverpod_lint
+  # then uncomment:
+  #
+  # plugins:
+  #   - custom_lint
+
+linter:
+  rules:
+    prefer_single_quotes: true
+    directives_ordering: true
+    unawaited_futures: true
