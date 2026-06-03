@@ -1,0 +1,110 @@
+You are setting up the foundation of a Flutter desktop application called
+"reservations_manager". It is a management client for clinics/organisations to
+manage reservations served by an existing backend REST API. Target platforms:
+Windows, Linux, macOS (desktop only for now).
+
+The Flutter project is already initialized in this directory with these deps:
+flutter_riverpod, riverpod_annotation, dio, freezed_annotation, json_annotation,
+and dev deps build_runner, riverpod_generator, freezed, json_serializable,
+custom_lint, riverpod_lint.
+
+Do NOT build features yet. Lay the architectural foundation ONLY, designed so
+the following future changes are cheap and localized:
+  (a) data currently lives in-memory in Riverpod stores, but LATER a local
+      persistence layer + a sync mechanism will be added so it will be a hybrid between in-memory and persisting data;
+  (b) data is fetched by POLLING now, but LATER must be swappable to SSE and
+      WebSockets WITHOUT touching UI or domain code.
+
+== ARCHITECTURE: strict feature-first ==
+
+lib/
+  main.dart
+  app/
+    app.dart                 # root MaterialApp + ProviderScope
+    router/                  # routing setup (use go_router; add it)
+    theme/
+  core/
+    config/                  # env/config, base API url
+    network/
+      api_client.dart        # Dio wrapper, interceptors, error mapping
+      api_exception.dart
+    realtime/
+      realtime_source.dart   # abstract interface: Stream<Event> for a resource
+      polling_source.dart    # current impl: polls repository on an interval
+      # sse_source.dart and socket_source.dart come LATER, same interface
+    storage/
+      key_value_store.dart   # abstract interface (in-memory impl now)
+      memory_store.dart      # current impl; local DB impl comes LATER
+    sync/
+      sync_engine.dart       # placeholder interface for future sync; no-op now
+    result/
+      result.dart            # Result/Either type for error handling
+    utils/
+  features/
+    <feature>/
+      data/
+        models/              # freezed + json_serializable DTOs
+        datasources/         # remote (Dio) + local (storage) datasources
+        repositories/        # concrete repo impl
+      domain/
+        entities/            # pure domain models
+        repositories/        # abstract repository interface
+      presentation/
+        providers/           # Riverpod notifiers/providers for this feature
+        screens/
+        widgets/
+
+== KEY DESIGN RULES ==
+
+1. Repository pattern is mandatory. Every feature defines an abstract repository
+   in domain/repositories. The concrete impl in data/repositories composes a
+   remote datasource (Dio) and a local datasource (storage). Providers and UI
+   depend ONLY on the abstract repository, never on Dio or storage directly.
+
+2. Realtime abstraction. Define `RealtimeSource<T>` in core/realtime exposing a
+   `Stream<T>` (or stream of change-events) for a resource. Implement
+   `PollingSource` now (calls the repository every N seconds, emits results).
+   The repository/provider consumes a RealtimeSource via DI, so switching to
+   SSE/sockets later means adding a new RealtimeSource impl and changing one
+   provider override — nothing else.
+
+3. Storage abstraction. Define `KeyValueStore` (or a typed cache interface) in
+   core/storage with an in-memory implementation now. Local datasources depend
+   on this interface so a real local DB (e.g. drift/sqlite/isar) can replace
+   the memory impl later without touching repositories.
+
+4. Sync seam. Add a `SyncEngine` interface in core/sync with a no-op
+   implementation now, wired but inert, so a real sync layer slots in later.
+
+5. State management. Use Riverpod with code generation (@riverpod). Use
+   AsyncNotifier for async/server-backed state. All dependencies (api client,
+   repositories, sources, stores) are exposed as providers so they can be
+   overridden in tests and in main.dart. No global singletons.
+
+6. Models immutable via freezed. DTOs in data layer, entities in domain layer;
+   map between them in the repository (don't leak DTOs to the UI).
+
+7. Error handling via the Result type; map Dio errors to ApiException in the
+   api client; no raw exceptions leaking to the UI.
+
+== DELIVERABLES FOR THIS STEP ==
+
+- Add go_router to the project.
+- Create the full folder structure above with the core/ layer fully implemented
+  (api_client, realtime_source + polling_source, key_value_store + memory_store,
+  sync_engine no-op, result type, api_exception).
+- Implement ONE thin vertical slice feature called "reservations" end-to-end as
+  a reference template: a Reservation entity + DTO, an abstract + concrete
+  repository, remote + local (memory) datasources, a RealtimeSource wired to
+  polling, an AsyncNotifier provider exposing the reservation list, and a
+  minimal screen that displays the list and reflects polled updates.
+- Wire ProviderScope in main.dart with all top-level provider overrides.
+- Provide all required @riverpod / freezed annotations and run, or give me the
+  exact command to run, build_runner.
+- Add an analysis_options.yaml enabling riverpod_lint + custom_lint.
+
+Explain the realtime and storage seams briefly in a top-level ARCHITECTURE.md so
+the polling→SSE→socket and memory→local-DB→sync transitions are documented.
+
+Keep it minimal but correct and runnable. Ask me nothing; make sensible
+assumptions and state them at the top of your response.
