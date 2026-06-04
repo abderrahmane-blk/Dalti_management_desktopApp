@@ -2,6 +2,7 @@ import 'package:desktop_turn_management/app/router/app_router.dart';
 import 'package:desktop_turn_management/features/home/presentation/models/home_destination.dart';
 import 'package:desktop_turn_management/features/home/presentation/widgets/home_sidebar.dart';
 import 'package:desktop_turn_management/features/queue_board/presentation/screens/today_screen.dart';
+import 'package:desktop_turn_management/features/queue_history/presentation/screens/history_screen.dart';
 import 'package:desktop_turn_management/features/walk_in/presentation/screens/walk_in_screen.dart';
 import 'package:desktop_turn_management/features/workspaces/domain/entities/workspace.dart';
 import 'package:desktop_turn_management/features/workspaces/presentation/providers/selected_workspace.dart';
@@ -98,6 +99,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           queueMode: queue.mode,
           onDone: () =>
               setState(() => _destination = QueueTodayDestination(queue)),
+        ),
+      QueueHistoryDestination(:final queue) => HistoryScreen(
+          queueId: queue.id,
+          queueName: queue.name.display,
         ),
       _ => _PlaceholderContent(
           title: _titleFor(destination),
