@@ -95,6 +95,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       QueueWalkInDestination(:final queue) => WalkInScreen(
           queueId: queue.id,
           queueName: queue.name.display,
+          queueMode: queue.mode,
           onDone: () =>
               setState(() => _destination = QueueTodayDestination(queue)),
         ),

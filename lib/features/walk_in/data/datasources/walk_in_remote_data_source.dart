@@ -22,11 +22,15 @@ class WalkInRemoteDataSource {
     String? name,
     String? phone,
     String? info,
+    String? scheduledDate,
+    String? scheduledTime,
   }) async {
     final body = <String, dynamic>{
       if (name != null && name.isNotEmpty) 'name': name,
       if (phone != null && phone.isNotEmpty) 'phone': phone,
       if (info != null && info.isNotEmpty) 'info': info,
+      if (scheduledDate != null && scheduledDate.isNotEmpty) 'scheduledDate': scheduledDate,
+      if (scheduledTime != null && scheduledTime.isNotEmpty) 'scheduledTime': scheduledTime,
     };
     final data = await _client.post(
       '/queues/$queueId/reserve',

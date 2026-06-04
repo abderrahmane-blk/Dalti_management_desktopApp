@@ -16,6 +16,8 @@ class WalkInRepositoryImpl implements WalkInRepository {
     String? name,
     String? phone,
     String? info,
+    String? scheduledDate,
+    String? scheduledTime,
   }) {
     return guard(
       () async => (await _remote.register(
@@ -23,6 +25,8 @@ class WalkInRepositoryImpl implements WalkInRepository {
         name: name,
         phone: phone,
         info: info,
+        scheduledDate: scheduledDate,
+        scheduledTime: scheduledTime,
       ))
           .toEntity(),
     );

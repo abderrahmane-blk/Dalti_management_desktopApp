@@ -13,11 +13,13 @@ class WalkInScreen extends ConsumerStatefulWidget {
     super.key,
     required this.queueId,
     required this.queueName,
+    required this.queueMode,
     required this.onDone,
   });
 
   final int queueId;
   final String queueName;
+  final String queueMode;
 
   /// Called when the operator is finished — returns to the Today board.
   final VoidCallback onDone;
@@ -32,6 +34,8 @@ class _WalkInScreenState extends ConsumerState<WalkInScreen> {
   final _phoneController = TextEditingController();
   final _infoController = TextEditingController();
   final _nameFocus = FocusNode();
+  DateTime _selectedDate = DateTime.now();
+  TimeOfDay _selectedTime = TimeOfDay.now();
   bool _submitting = false;
 
   @override
@@ -49,11 +53,17 @@ class _WalkInScreenState extends ConsumerState<WalkInScreen> {
 
     final messenger = ScaffoldMessenger.of(context);
     setState(() => _submitting = true);
+
+    final formattedDate = '${_selectedDate.year}-${_selectedDate.month.toString().padLeft(2, '0')}-${_selectedDate.day.toString().padLeft(2, '0')}';
+    final formattedTime = widget.queueMode == 'Simple' ? null : '${_selectedTime.hour.toString().padLeft(2, '0')}:${_selectedTime.minute.toString().padLeft(2, '0')}:00';
+
     final result = await ref.read(walkInRepositoryProvider).register(
           widget.queueId,
           name: _nameController.text.trim(),
           phone: _phoneController.text.trim(),
           info: _infoController.text.trim(),
+          scheduledDate: formattedDate,
+          scheduledTime: formattedTime,
         );
     if (!mounted) return;
     setState(() => _submitting = false);
@@ -102,6 +112,10 @@ class _WalkInScreenState extends ConsumerState<WalkInScreen> {
     _phoneController.clear();
     _infoController.clear();
     _formKey.currentState?.reset();
+    setState(() {
+      _selectedDate = DateTime.now();
+      _selectedTime = TimeOfDay.now();
+    });
     _nameFocus.requestFocus();
   }
 
@@ -164,6 +178,60 @@ class _WalkInScreenState extends ConsumerState<WalkInScreen> {
                           labelText: 'Note (optional)',
                           border: OutlineInputBorder(),
                         ),
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: InkWell(
+                              onTap: () async {
+                                final date = await showDatePicker(
+                                  context: context,
+                                  initialDate: _selectedDate,
+                                  firstDate: DateTime.now().subtract(const Duration(days: 365)),
+                                  lastDate: DateTime.now().add(const Duration(days: 365)),
+                                );
+                                if (date != null) {
+                                  setState(() => _selectedDate = date);
+                                }
+                              },
+                              child: InputDecorator(
+                                decoration: const InputDecoration(
+                                  labelText: 'Date',
+                                  border: OutlineInputBorder(),
+                                ),
+                                child: Text(
+                                  '${_selectedDate.year}-${_selectedDate.month.toString().padLeft(2, '0')}-${_selectedDate.day.toString().padLeft(2, '0')}',
+                                ),
+                              ),
+                            ),
+                          ),
+                          if (widget.queueMode != 'Simple') ...[
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: InkWell(
+                                onTap: () async {
+                                  final time = await showTimePicker(
+                                    context: context,
+                                    initialTime: _selectedTime,
+                                  );
+                                  if (time != null) {
+                                    setState(() => _selectedTime = time);
+                                  }
+                                },
+                                child: InputDecorator(
+                                  decoration: const InputDecoration(
+                                    labelText: 'Time',
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  child: Text(
+                                    _selectedTime.format(context),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ],
                       ),
                       const SizedBox(height: 20),
                       FilledButton.icon(

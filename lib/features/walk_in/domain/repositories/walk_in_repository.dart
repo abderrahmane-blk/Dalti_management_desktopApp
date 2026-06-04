@@ -15,5 +15,7 @@ abstract interface class WalkInRepository {
     String? name,
     String? phone,
     String? info,
+    String? scheduledDate,
+    String? scheduledTime,
   });
 }
