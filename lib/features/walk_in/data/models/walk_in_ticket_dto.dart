@@ -7,13 +7,17 @@ part 'walk_in_ticket_dto.g.dart';
 /// Wire shape of the `POST /queues/{queueId}/reserve` response. The endpoint
 /// also returns `status`/`info`, which a walk-in ticket does not need, so they
 /// are ignored here.
+///
+/// `position` is nullable: time-based queues return `"position": null` for a
+/// scheduled reservation (the slot is the scheduled time, not a queue rank),
+/// while simple queues return a numeric rank.
 @freezed
 abstract class WalkInTicketDto with _$WalkInTicketDto {
   const WalkInTicketDto._();
 
   const factory WalkInTicketDto({
     required int id,
-    required int position,
+    int? position,
     required String secretCode,
     String? scheduledDate,
     String? scheduledTime,

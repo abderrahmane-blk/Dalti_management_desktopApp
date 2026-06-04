@@ -84,7 +84,7 @@ class _WalkInScreenState extends ConsumerState<WalkInScreen> {
       builder: (dialogContext) => AlertDialog(
         title: const Text('Walk-in registered'),
         content: Text(
-          'Ticket #${ticket.position} · code ${ticket.secretCode}.\n'
+          '${_ticketSummary(ticket)} · code ${ticket.secretCode}.\n'
           'Register another walk-in?',
         ),
         actions: [
@@ -105,6 +105,16 @@ class _WalkInScreenState extends ConsumerState<WalkInScreen> {
     } else {
       widget.onDone();
     }
+  }
+
+  /// A simple queue assigns a numeric [WalkInTicket.position]; a time-based one
+  /// returns no position, so fall back to the scheduled slot.
+  String _ticketSummary(WalkInTicket ticket) {
+    if (ticket.position != null) return 'Ticket #${ticket.position}';
+    final slot = [ticket.scheduledDate, ticket.scheduledTime]
+        .where((part) => part != null && part.isNotEmpty)
+        .join(' ');
+    return slot.isEmpty ? 'Registered' : 'Scheduled for $slot';
   }
 
   void _resetForm() {

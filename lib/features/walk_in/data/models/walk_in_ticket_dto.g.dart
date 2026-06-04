@@ -9,7 +9,7 @@ part of 'walk_in_ticket_dto.dart';
 _WalkInTicketDto _$WalkInTicketDtoFromJson(Map<String, dynamic> json) =>
     _WalkInTicketDto(
       id: (json['id'] as num).toInt(),
-      position: (json['position'] as num).toInt(),
+      position: (json['position'] as num?)?.toInt(),
       secretCode: json['secretCode'] as String,
       scheduledDate: json['scheduledDate'] as String?,
       scheduledTime: json['scheduledTime'] as String?,

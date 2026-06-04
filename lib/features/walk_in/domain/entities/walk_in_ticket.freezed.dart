@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$WalkInTicket {
 
- int get id; int get position; String get secretCode; String? get scheduledDate; String? get scheduledTime;
+ int get id; int? get position; String get secretCode; String? get scheduledDate; String? get scheduledTime;
 /// Create a copy of WalkInTicket
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -45,7 +45,7 @@ abstract mixin class $WalkInTicketCopyWith<$Res>  {
   factory $WalkInTicketCopyWith(WalkInTicket value, $Res Function(WalkInTicket) _then) = _$WalkInTicketCopyWithImpl;
 @useResult
 $Res call({
- int id, int position, String secretCode, String? scheduledDate, String? scheduledTime
+ int id, int? position, String secretCode, String? scheduledDate, String? scheduledTime
 });
 
 
@@ -62,11 +62,11 @@ class _$WalkInTicketCopyWithImpl<$Res>
 
 /// Create a copy of WalkInTicket
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? position = null,Object? secretCode = null,Object? scheduledDate = freezed,Object? scheduledTime = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? position = freezed,Object? secretCode = null,Object? scheduledDate = freezed,Object? scheduledTime = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int,position: null == position ? _self.position : position // ignore: cast_nullable_to_non_nullable
-as int,secretCode: null == secretCode ? _self.secretCode : secretCode // ignore: cast_nullable_to_non_nullable
+as int,position: freezed == position ? _self.position : position // ignore: cast_nullable_to_non_nullable
+as int?,secretCode: null == secretCode ? _self.secretCode : secretCode // ignore: cast_nullable_to_non_nullable
 as String,scheduledDate: freezed == scheduledDate ? _self.scheduledDate : scheduledDate // ignore: cast_nullable_to_non_nullable
 as String?,scheduledTime: freezed == scheduledTime ? _self.scheduledTime : scheduledTime // ignore: cast_nullable_to_non_nullable
 as String?,
@@ -154,7 +154,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  int position,  String secretCode,  String? scheduledDate,  String? scheduledTime)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  int? position,  String secretCode,  String? scheduledDate,  String? scheduledTime)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _WalkInTicket() when $default != null:
 return $default(_that.id,_that.position,_that.secretCode,_that.scheduledDate,_that.scheduledTime);case _:
@@ -175,7 +175,7 @@ return $default(_that.id,_that.position,_that.secretCode,_that.scheduledDate,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  int position,  String secretCode,  String? scheduledDate,  String? scheduledTime)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  int? position,  String secretCode,  String? scheduledDate,  String? scheduledTime)  $default,) {final _that = this;
 switch (_that) {
 case _WalkInTicket():
 return $default(_that.id,_that.position,_that.secretCode,_that.scheduledDate,_that.scheduledTime);case _:
@@ -195,7 +195,7 @@ return $default(_that.id,_that.position,_that.secretCode,_that.scheduledDate,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  int position,  String secretCode,  String? scheduledDate,  String? scheduledTime)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  int? position,  String secretCode,  String? scheduledDate,  String? scheduledTime)?  $default,) {final _that = this;
 switch (_that) {
 case _WalkInTicket() when $default != null:
 return $default(_that.id,_that.position,_that.secretCode,_that.scheduledDate,_that.scheduledTime);case _:
@@ -210,11 +210,11 @@ return $default(_that.id,_that.position,_that.secretCode,_that.scheduledDate,_th
 
 
 class _WalkInTicket implements WalkInTicket {
-  const _WalkInTicket({required this.id, required this.position, required this.secretCode, this.scheduledDate, this.scheduledTime});
+  const _WalkInTicket({required this.id, this.position, required this.secretCode, this.scheduledDate, this.scheduledTime});
   
 
 @override final  int id;
-@override final  int position;
+@override final  int? position;
 @override final  String secretCode;
 @override final  String? scheduledDate;
 @override final  String? scheduledTime;
@@ -249,7 +249,7 @@ abstract mixin class _$WalkInTicketCopyWith<$Res> implements $WalkInTicketCopyWi
   factory _$WalkInTicketCopyWith(_WalkInTicket value, $Res Function(_WalkInTicket) _then) = __$WalkInTicketCopyWithImpl;
 @override @useResult
 $Res call({
- int id, int position, String secretCode, String? scheduledDate, String? scheduledTime
+ int id, int? position, String secretCode, String? scheduledDate, String? scheduledTime
 });
 
 
@@ -266,11 +266,11 @@ class __$WalkInTicketCopyWithImpl<$Res>
 
 /// Create a copy of WalkInTicket
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? position = null,Object? secretCode = null,Object? scheduledDate = freezed,Object? scheduledTime = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? position = freezed,Object? secretCode = null,Object? scheduledDate = freezed,Object? scheduledTime = freezed,}) {
   return _then(_WalkInTicket(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int,position: null == position ? _self.position : position // ignore: cast_nullable_to_non_nullable
-as int,secretCode: null == secretCode ? _self.secretCode : secretCode // ignore: cast_nullable_to_non_nullable
+as int,position: freezed == position ? _self.position : position // ignore: cast_nullable_to_non_nullable
+as int?,secretCode: null == secretCode ? _self.secretCode : secretCode // ignore: cast_nullable_to_non_nullable
 as String,scheduledDate: freezed == scheduledDate ? _self.scheduledDate : scheduledDate // ignore: cast_nullable_to_non_nullable
 as String?,scheduledTime: freezed == scheduledTime ? _self.scheduledTime : scheduledTime // ignore: cast_nullable_to_non_nullable
 as String?,
