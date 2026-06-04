@@ -9,17 +9,17 @@ part of 'current_user_notifier.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 /// Loads (and exposes) the signed-in user. Used by the login gate to render the
-/// "Continue as <name>" button.
+/// "Continue as `<name>`" button. (Generated provider: `currentUserProvider`.)
 
 @ProviderFor(CurrentUserNotifier)
 final currentUserProvider = CurrentUserNotifierProvider._();
 
 /// Loads (and exposes) the signed-in user. Used by the login gate to render the
-/// "Continue as <name>" button.
+/// "Continue as `<name>`" button. (Generated provider: `currentUserProvider`.)
 final class CurrentUserNotifierProvider
     extends $AsyncNotifierProvider<CurrentUserNotifier, CurrentUser> {
   /// Loads (and exposes) the signed-in user. Used by the login gate to render the
-  /// "Continue as <name>" button.
+  /// "Continue as `<name>`" button. (Generated provider: `currentUserProvider`.)
   CurrentUserNotifierProvider._()
     : super(
         from: null,
@@ -43,7 +43,7 @@ String _$currentUserNotifierHash() =>
     r'7d08be8256c4975bfbed8f31840289602c42caaa';
 
 /// Loads (and exposes) the signed-in user. Used by the login gate to render the
-/// "Continue as <name>" button.
+/// "Continue as `<name>`" button. (Generated provider: `currentUserProvider`.)
 
 abstract class _$CurrentUserNotifier extends $AsyncNotifier<CurrentUser> {
   FutureOr<CurrentUser> build();

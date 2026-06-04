@@ -29,9 +29,13 @@ class ApiClient {
     // lands, only the AuthTokenStore binding changes — this stays put.
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
-        final token = await tokenStore.readAccessToken();
-        if (token != null && token.isNotEmpty) {
-          options.headers['Authorization'] = 'Bearer $token';
+        // Requests opt out of auth with `extra['skipAuth'] == true` (e.g. an
+        // anonymous walk-in, which must not be filed under the operator).
+        if (options.extra['skipAuth'] != true) {
+          final token = await tokenStore.readAccessToken();
+          if (token != null && token.isNotEmpty) {
+            options.headers['Authorization'] = 'Bearer $token';
+          }
         }
         handler.next(options);
       },
@@ -53,12 +57,27 @@ class ApiClient {
     return _send(() => _dio.get<dynamic>(path, queryParameters: queryParameters));
   }
 
-  Future<dynamic> post(String path, {Object? data}) async {
-    return _send(() => _dio.post<dynamic>(path, data: data));
+  /// POSTs [data] to [path]. Set [authenticated] to `false` to send the request
+  /// without the bearer token (used for anonymous endpoints like walk-in
+  /// registration).
+  Future<dynamic> post(
+    String path, {
+    Object? data,
+    bool authenticated = true,
+  }) async {
+    return _send(() => _dio.post<dynamic>(
+          path,
+          data: data,
+          options: authenticated ? null : Options(extra: {'skipAuth': true}),
+        ));
   }
 
   Future<dynamic> put(String path, {Object? data}) async {
     return _send(() => _dio.put<dynamic>(path, data: data));
+  }
+
+  Future<dynamic> patch(String path, {Object? data}) async {
+    return _send(() => _dio.patch<dynamic>(path, data: data));
   }
 
   Future<dynamic> delete(String path, {Object? data}) async {

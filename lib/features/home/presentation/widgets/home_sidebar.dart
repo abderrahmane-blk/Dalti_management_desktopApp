@@ -1,3 +1,4 @@
+import 'package:desktop_turn_management/features/home/presentation/models/home_destination.dart';
 import 'package:desktop_turn_management/features/workspaces/domain/entities/workspace.dart';
 import 'package:flutter/material.dart';
 
@@ -28,8 +29,8 @@ class HomeSidebar extends StatelessWidget {
   final bool expanded;
   final VoidCallback onToggle;
 
-  /// Called with the chosen destination's label (the placeholder title).
-  final ValueChanged<String> onSelect;
+  /// Called with the chosen destination (the Today board, or a placeholder).
+  final ValueChanged<HomeDestination> onSelect;
   final VoidCallback onSettings;
   final VoidCallback onLogout;
   final VoidCallback onHandleSomethingElse;
@@ -72,6 +73,11 @@ class HomeSidebar extends StatelessWidget {
             padding: EdgeInsets.zero,
             children: [
               const _SectionHeader('Queues'),
+              if (organization.queues.isEmpty)
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(16, 0, 16, 8),
+                  child: Text('No queues.'),
+                ),
               for (final queue in organization.queues)
                 ExpansionTile(
                   leading: const Icon(Icons.people_outline),
@@ -82,13 +88,26 @@ class HomeSidebar extends StatelessWidget {
                   ),
                   childrenPadding: const EdgeInsets.only(left: 16),
                   children: [
-                    for (final dest in _queueDestinations)
-                      ListTile(
-                        dense: true,
-                        title: Text(dest),
-                        onTap: () =>
-                            onSelect('${queue.name.display} — $dest'),
-                      ),
+                    ListTile(
+                      dense: true,
+                      title: const Text('Today'),
+                      onTap: () => onSelect(QueueTodayDestination(queue)),
+                    ),
+                    ListTile(
+                      dense: true,
+                      title: const Text('History'),
+                      onTap: () => onSelect(QueueHistoryDestination(queue)),
+                    ),
+                    ListTile(
+                      dense: true,
+                      title: const Text('Register a walk-in'),
+                      onTap: () => onSelect(QueueWalkInDestination(queue)),
+                    ),
+                    ListTile(
+                      dense: true,
+                      title: const Text('Accept future reservations'),
+                      onTap: () => onSelect(QueueFutureDestination(queue)),
+                    ),
                   ],
                 ),
               const Divider(height: 1),
@@ -102,13 +121,16 @@ class HomeSidebar extends StatelessWidget {
                 ),
                 childrenPadding: const EdgeInsets.only(left: 16),
                 children: [
-                  for (final dest in _orgDestinations)
-                    ListTile(
-                      dense: true,
-                      title: Text(dest),
-                      onTap: () =>
-                          onSelect('${organization.name.display} — $dest'),
-                    ),
+                  ListTile(
+                    dense: true,
+                    title: const Text('Edit organization'),
+                    onTap: () => onSelect(const OrgEditDestination()),
+                  ),
+                  ListTile(
+                    dense: true,
+                    title: const Text('Statistics'),
+                    onTap: () => onSelect(const OrgStatisticsDestination()),
+                  ),
                 ],
               ),
             ],
@@ -174,19 +196,12 @@ class HomeSidebar extends StatelessWidget {
     );
   }
 
-  static const List<String> _queueDestinations = [
-    'Today',
-    'History',
-    'Register a walk-in',
-    'Accept future reservations',
-  ];
-
-  static const List<String> _orgDestinations = [
-    'Edit organization',
-    'Statistics',
-  ];
 }
 
+/// A permanent, prominent section label (e.g. "Queues", "Organization"). It is
+/// not collapsible — it always stays open and groups the expandable entries
+/// below it, so a section reads clearly as a section rather than as one of its
+/// entries.
 class _SectionHeader extends StatelessWidget {
   const _SectionHeader(this.label);
 
@@ -194,13 +209,14 @@ class _SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 6),
       child: Text(
-        label.toUpperCase(),
-        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              letterSpacing: 0.8,
-              color: Theme.of(context).colorScheme.outline,
+        label,
+        style: theme.textTheme.titleSmall?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: theme.colorScheme.primary,
             ),
       ),
     );

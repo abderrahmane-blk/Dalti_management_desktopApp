@@ -21,7 +21,8 @@ part 'dev_auth_token_store.g.dart';
 /// so `/me/workspaces` returns more than one organization to choose from.
 /// Replace it (or pass `--dart-define=ACCESS_TOKEN=...`) once real auth lands.
 const String _pastedToken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5YmZhNDgxMy01OTk0LTQzNDAtOTJlZi0wMDk2M2MyZmRmNGYiLCJlbWFpbCI6ImFiZGVycmFobWFuZS5ib3Vsa2VuYWZldEB1bml2LWNvbnN0YW50aW5lMi5keiIsIm5hbWUiOiJBYmRlcnJhaG1hbmUgQk9VTEtFTkFGRVQiLCJleHAiOjE3ODQwMzIwMjR9.cJqnyCBF1EZSCW-afd0iIeWgOpuoZs8e2AuoNUNUrnQ';
+    // 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5YmZhNDgxMy01OTk0LTQzNDAtOTJlZi0wMDk2M2MyZmRmNGYiLCJlbWFpbCI6ImFiZGVycmFobWFuZS5ib3Vsa2VuYWZldEB1bml2LWNvbnN0YW50aW5lMi5keiIsIm5hbWUiOiJBYmRlcnJhaG1hbmUgQk9VTEtFTkFGRVQiLCJleHAiOjE3ODQwMzIwMjR9.cJqnyCBF1EZSCW-afd0iIeWgOpuoZs8e2AuoNUNUrnQ';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlMDQ5N2Q3ZS0zZTNlLTQ0YjItYTJiZS1kM2EzMmFhZTk2MjUiLCJlbWFpbCI6ImRhaG1hbmV6aXRvdW5hQGdtYWlsLmNvbSIsIm5hbWUiOiJhYmRlcnJhaG1hbmUgYm91bGtlbmFmZXQiLCJleHAiOjE3ODQwMzE4OTd9.6I6NBgXukMNKbdrQNDmcw_OsxIIhxsyBXXEtgOjfWFU';
 
 /// Resolved dev token: `--dart-define=ACCESS_TOKEN` wins, else [_pastedToken].
 const String kDevAccessToken =
