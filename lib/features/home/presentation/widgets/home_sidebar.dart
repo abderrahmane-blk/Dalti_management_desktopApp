@@ -123,7 +123,7 @@ class HomeSidebar extends StatelessWidget {
                 children: [
                   ListTile(
                     dense: true,
-                    title: const Text('Edit organization'),
+                    title: const Text('Organization'),
                     onTap: () => onSelect(const OrgEditDestination()),
                   ),
                   ListTile(

@@ -50,7 +50,7 @@ abstract class ManagedOrganization with _$ManagedOrganization {
   const factory ManagedOrganization({
     required int id,
     required String sector,
-    required int subtypeId,
+    int? subtypeId,
     required double latitude,
     required double longitude,
     required OrgRole role,

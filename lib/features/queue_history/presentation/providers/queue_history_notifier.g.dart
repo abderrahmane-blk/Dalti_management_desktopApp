@@ -68,7 +68,7 @@ final class QueueHistoryProvider
   }
 }
 
-String _$queueHistoryHash() => r'b34508ea3b943ec32609b11ebe49b0db9a45bdfd';
+String _$queueHistoryHash() => r'892653b09a9d299ec37cab4ebd5b22bb18831456';
 
 /// Loads and holds a queue's reservation history.
 ///

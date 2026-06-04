@@ -1,6 +1,7 @@
 import 'package:desktop_turn_management/app/router/app_router.dart';
 import 'package:desktop_turn_management/features/home/presentation/models/home_destination.dart';
 import 'package:desktop_turn_management/features/home/presentation/widgets/home_sidebar.dart';
+import 'package:desktop_turn_management/features/organization/presentation/screens/organization_screen.dart';
 import 'package:desktop_turn_management/features/queue_board/presentation/screens/today_screen.dart';
 import 'package:desktop_turn_management/features/queue_history/presentation/screens/history_screen.dart';
 import 'package:desktop_turn_management/features/walk_in/presentation/screens/walk_in_screen.dart';
@@ -104,6 +105,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           queueId: queue.id,
           queueName: queue.name.display,
         ),
+      OrgEditDestination() => const OrganizationScreen(),
       _ => _PlaceholderContent(
           title: _titleFor(destination),
           organizationName: organization.name.display,

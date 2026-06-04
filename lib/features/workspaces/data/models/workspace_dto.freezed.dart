@@ -290,7 +290,7 @@ as List<ManagedOrganizationDto>,
 /// @nodoc
 mixin _$ManagedOrganizationDto {
 
- int get id; String get sector; int get subtypeId; double get latitude; double get longitude; String get role; int get orgPermissions; LocalizedFieldsDto get ar; LocalizedFieldsDto get en; LocalizedFieldsDto get fr; List<ManagedQueueDto> get queues;
+ int get id; String get sector; int? get subtypeId; double get latitude; double get longitude; String get role; int get orgPermissions; LocalizedFieldsDto get ar; LocalizedFieldsDto get en; LocalizedFieldsDto get fr; List<ManagedQueueDto> get queues;
 /// Create a copy of ManagedOrganizationDto
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -323,7 +323,7 @@ abstract mixin class $ManagedOrganizationDtoCopyWith<$Res>  {
   factory $ManagedOrganizationDtoCopyWith(ManagedOrganizationDto value, $Res Function(ManagedOrganizationDto) _then) = _$ManagedOrganizationDtoCopyWithImpl;
 @useResult
 $Res call({
- int id, String sector, int subtypeId, double latitude, double longitude, String role, int orgPermissions, LocalizedFieldsDto ar, LocalizedFieldsDto en, LocalizedFieldsDto fr, List<ManagedQueueDto> queues
+ int id, String sector, int? subtypeId, double latitude, double longitude, String role, int orgPermissions, LocalizedFieldsDto ar, LocalizedFieldsDto en, LocalizedFieldsDto fr, List<ManagedQueueDto> queues
 });
 
 
@@ -340,12 +340,12 @@ class _$ManagedOrganizationDtoCopyWithImpl<$Res>
 
 /// Create a copy of ManagedOrganizationDto
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? sector = null,Object? subtypeId = null,Object? latitude = null,Object? longitude = null,Object? role = null,Object? orgPermissions = null,Object? ar = null,Object? en = null,Object? fr = null,Object? queues = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? sector = null,Object? subtypeId = freezed,Object? latitude = null,Object? longitude = null,Object? role = null,Object? orgPermissions = null,Object? ar = null,Object? en = null,Object? fr = null,Object? queues = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,sector: null == sector ? _self.sector : sector // ignore: cast_nullable_to_non_nullable
-as String,subtypeId: null == subtypeId ? _self.subtypeId : subtypeId // ignore: cast_nullable_to_non_nullable
-as int,latitude: null == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
+as String,subtypeId: freezed == subtypeId ? _self.subtypeId : subtypeId // ignore: cast_nullable_to_non_nullable
+as int?,latitude: null == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
 as double,longitude: null == longitude ? _self.longitude : longitude // ignore: cast_nullable_to_non_nullable
 as double,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
 as String,orgPermissions: null == orgPermissions ? _self.orgPermissions : orgPermissions // ignore: cast_nullable_to_non_nullable
@@ -465,7 +465,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String sector,  int subtypeId,  double latitude,  double longitude,  String role,  int orgPermissions,  LocalizedFieldsDto ar,  LocalizedFieldsDto en,  LocalizedFieldsDto fr,  List<ManagedQueueDto> queues)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String sector,  int? subtypeId,  double latitude,  double longitude,  String role,  int orgPermissions,  LocalizedFieldsDto ar,  LocalizedFieldsDto en,  LocalizedFieldsDto fr,  List<ManagedQueueDto> queues)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ManagedOrganizationDto() when $default != null:
 return $default(_that.id,_that.sector,_that.subtypeId,_that.latitude,_that.longitude,_that.role,_that.orgPermissions,_that.ar,_that.en,_that.fr,_that.queues);case _:
@@ -486,7 +486,7 @@ return $default(_that.id,_that.sector,_that.subtypeId,_that.latitude,_that.longi
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String sector,  int subtypeId,  double latitude,  double longitude,  String role,  int orgPermissions,  LocalizedFieldsDto ar,  LocalizedFieldsDto en,  LocalizedFieldsDto fr,  List<ManagedQueueDto> queues)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String sector,  int? subtypeId,  double latitude,  double longitude,  String role,  int orgPermissions,  LocalizedFieldsDto ar,  LocalizedFieldsDto en,  LocalizedFieldsDto fr,  List<ManagedQueueDto> queues)  $default,) {final _that = this;
 switch (_that) {
 case _ManagedOrganizationDto():
 return $default(_that.id,_that.sector,_that.subtypeId,_that.latitude,_that.longitude,_that.role,_that.orgPermissions,_that.ar,_that.en,_that.fr,_that.queues);case _:
@@ -506,7 +506,7 @@ return $default(_that.id,_that.sector,_that.subtypeId,_that.latitude,_that.longi
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String sector,  int subtypeId,  double latitude,  double longitude,  String role,  int orgPermissions,  LocalizedFieldsDto ar,  LocalizedFieldsDto en,  LocalizedFieldsDto fr,  List<ManagedQueueDto> queues)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String sector,  int? subtypeId,  double latitude,  double longitude,  String role,  int orgPermissions,  LocalizedFieldsDto ar,  LocalizedFieldsDto en,  LocalizedFieldsDto fr,  List<ManagedQueueDto> queues)?  $default,) {final _that = this;
 switch (_that) {
 case _ManagedOrganizationDto() when $default != null:
 return $default(_that.id,_that.sector,_that.subtypeId,_that.latitude,_that.longitude,_that.role,_that.orgPermissions,_that.ar,_that.en,_that.fr,_that.queues);case _:
@@ -521,12 +521,12 @@ return $default(_that.id,_that.sector,_that.subtypeId,_that.latitude,_that.longi
 @JsonSerializable()
 
 class _ManagedOrganizationDto extends ManagedOrganizationDto {
-  const _ManagedOrganizationDto({required this.id, required this.sector, required this.subtypeId, required this.latitude, required this.longitude, required this.role, required this.orgPermissions, required this.ar, required this.en, required this.fr, required final  List<ManagedQueueDto> queues}): _queues = queues,super._();
+  const _ManagedOrganizationDto({required this.id, required this.sector, this.subtypeId, required this.latitude, required this.longitude, required this.role, required this.orgPermissions, required this.ar, required this.en, required this.fr, required final  List<ManagedQueueDto> queues}): _queues = queues,super._();
   factory _ManagedOrganizationDto.fromJson(Map<String, dynamic> json) => _$ManagedOrganizationDtoFromJson(json);
 
 @override final  int id;
 @override final  String sector;
-@override final  int subtypeId;
+@override final  int? subtypeId;
 @override final  double latitude;
 @override final  double longitude;
 @override final  String role;
@@ -575,7 +575,7 @@ abstract mixin class _$ManagedOrganizationDtoCopyWith<$Res> implements $ManagedO
   factory _$ManagedOrganizationDtoCopyWith(_ManagedOrganizationDto value, $Res Function(_ManagedOrganizationDto) _then) = __$ManagedOrganizationDtoCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String sector, int subtypeId, double latitude, double longitude, String role, int orgPermissions, LocalizedFieldsDto ar, LocalizedFieldsDto en, LocalizedFieldsDto fr, List<ManagedQueueDto> queues
+ int id, String sector, int? subtypeId, double latitude, double longitude, String role, int orgPermissions, LocalizedFieldsDto ar, LocalizedFieldsDto en, LocalizedFieldsDto fr, List<ManagedQueueDto> queues
 });
 
 
@@ -592,12 +592,12 @@ class __$ManagedOrganizationDtoCopyWithImpl<$Res>
 
 /// Create a copy of ManagedOrganizationDto
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? sector = null,Object? subtypeId = null,Object? latitude = null,Object? longitude = null,Object? role = null,Object? orgPermissions = null,Object? ar = null,Object? en = null,Object? fr = null,Object? queues = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? sector = null,Object? subtypeId = freezed,Object? latitude = null,Object? longitude = null,Object? role = null,Object? orgPermissions = null,Object? ar = null,Object? en = null,Object? fr = null,Object? queues = null,}) {
   return _then(_ManagedOrganizationDto(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,sector: null == sector ? _self.sector : sector // ignore: cast_nullable_to_non_nullable
-as String,subtypeId: null == subtypeId ? _self.subtypeId : subtypeId // ignore: cast_nullable_to_non_nullable
-as int,latitude: null == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
+as String,subtypeId: freezed == subtypeId ? _self.subtypeId : subtypeId // ignore: cast_nullable_to_non_nullable
+as int?,latitude: null == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
 as double,longitude: null == longitude ? _self.longitude : longitude // ignore: cast_nullable_to_non_nullable
 as double,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
 as String,orgPermissions: null == orgPermissions ? _self.orgPermissions : orgPermissions // ignore: cast_nullable_to_non_nullable

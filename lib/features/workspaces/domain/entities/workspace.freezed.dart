@@ -591,7 +591,7 @@ $L10nCopyWith<$Res> get description {
 /// @nodoc
 mixin _$ManagedOrganization {
 
- int get id; String get sector; int get subtypeId; double get latitude; double get longitude; OrgRole get role; int get orgPermissions; L10n get name; L10n get address; List<ManagedQueue> get queues;
+ int get id; String get sector; int? get subtypeId; double get latitude; double get longitude; OrgRole get role; int get orgPermissions; L10n get name; L10n get address; List<ManagedQueue> get queues;
 /// Create a copy of ManagedOrganization
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -622,7 +622,7 @@ abstract mixin class $ManagedOrganizationCopyWith<$Res>  {
   factory $ManagedOrganizationCopyWith(ManagedOrganization value, $Res Function(ManagedOrganization) _then) = _$ManagedOrganizationCopyWithImpl;
 @useResult
 $Res call({
- int id, String sector, int subtypeId, double latitude, double longitude, OrgRole role, int orgPermissions, L10n name, L10n address, List<ManagedQueue> queues
+ int id, String sector, int? subtypeId, double latitude, double longitude, OrgRole role, int orgPermissions, L10n name, L10n address, List<ManagedQueue> queues
 });
 
 
@@ -639,12 +639,12 @@ class _$ManagedOrganizationCopyWithImpl<$Res>
 
 /// Create a copy of ManagedOrganization
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? sector = null,Object? subtypeId = null,Object? latitude = null,Object? longitude = null,Object? role = null,Object? orgPermissions = null,Object? name = null,Object? address = null,Object? queues = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? sector = null,Object? subtypeId = freezed,Object? latitude = null,Object? longitude = null,Object? role = null,Object? orgPermissions = null,Object? name = null,Object? address = null,Object? queues = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,sector: null == sector ? _self.sector : sector // ignore: cast_nullable_to_non_nullable
-as String,subtypeId: null == subtypeId ? _self.subtypeId : subtypeId // ignore: cast_nullable_to_non_nullable
-as int,latitude: null == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
+as String,subtypeId: freezed == subtypeId ? _self.subtypeId : subtypeId // ignore: cast_nullable_to_non_nullable
+as int?,latitude: null == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
 as double,longitude: null == longitude ? _self.longitude : longitude // ignore: cast_nullable_to_non_nullable
 as double,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
 as OrgRole,orgPermissions: null == orgPermissions ? _self.orgPermissions : orgPermissions // ignore: cast_nullable_to_non_nullable
@@ -754,7 +754,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String sector,  int subtypeId,  double latitude,  double longitude,  OrgRole role,  int orgPermissions,  L10n name,  L10n address,  List<ManagedQueue> queues)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String sector,  int? subtypeId,  double latitude,  double longitude,  OrgRole role,  int orgPermissions,  L10n name,  L10n address,  List<ManagedQueue> queues)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ManagedOrganization() when $default != null:
 return $default(_that.id,_that.sector,_that.subtypeId,_that.latitude,_that.longitude,_that.role,_that.orgPermissions,_that.name,_that.address,_that.queues);case _:
@@ -775,7 +775,7 @@ return $default(_that.id,_that.sector,_that.subtypeId,_that.latitude,_that.longi
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String sector,  int subtypeId,  double latitude,  double longitude,  OrgRole role,  int orgPermissions,  L10n name,  L10n address,  List<ManagedQueue> queues)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String sector,  int? subtypeId,  double latitude,  double longitude,  OrgRole role,  int orgPermissions,  L10n name,  L10n address,  List<ManagedQueue> queues)  $default,) {final _that = this;
 switch (_that) {
 case _ManagedOrganization():
 return $default(_that.id,_that.sector,_that.subtypeId,_that.latitude,_that.longitude,_that.role,_that.orgPermissions,_that.name,_that.address,_that.queues);case _:
@@ -795,7 +795,7 @@ return $default(_that.id,_that.sector,_that.subtypeId,_that.latitude,_that.longi
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String sector,  int subtypeId,  double latitude,  double longitude,  OrgRole role,  int orgPermissions,  L10n name,  L10n address,  List<ManagedQueue> queues)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String sector,  int? subtypeId,  double latitude,  double longitude,  OrgRole role,  int orgPermissions,  L10n name,  L10n address,  List<ManagedQueue> queues)?  $default,) {final _that = this;
 switch (_that) {
 case _ManagedOrganization() when $default != null:
 return $default(_that.id,_that.sector,_that.subtypeId,_that.latitude,_that.longitude,_that.role,_that.orgPermissions,_that.name,_that.address,_that.queues);case _:
@@ -810,12 +810,12 @@ return $default(_that.id,_that.sector,_that.subtypeId,_that.latitude,_that.longi
 
 
 class _ManagedOrganization implements ManagedOrganization {
-  const _ManagedOrganization({required this.id, required this.sector, required this.subtypeId, required this.latitude, required this.longitude, required this.role, required this.orgPermissions, required this.name, required this.address, required final  List<ManagedQueue> queues}): _queues = queues;
+  const _ManagedOrganization({required this.id, required this.sector, this.subtypeId, required this.latitude, required this.longitude, required this.role, required this.orgPermissions, required this.name, required this.address, required final  List<ManagedQueue> queues}): _queues = queues;
   
 
 @override final  int id;
 @override final  String sector;
-@override final  int subtypeId;
+@override final  int? subtypeId;
 @override final  double latitude;
 @override final  double longitude;
 @override final  OrgRole role;
@@ -860,7 +860,7 @@ abstract mixin class _$ManagedOrganizationCopyWith<$Res> implements $ManagedOrga
   factory _$ManagedOrganizationCopyWith(_ManagedOrganization value, $Res Function(_ManagedOrganization) _then) = __$ManagedOrganizationCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String sector, int subtypeId, double latitude, double longitude, OrgRole role, int orgPermissions, L10n name, L10n address, List<ManagedQueue> queues
+ int id, String sector, int? subtypeId, double latitude, double longitude, OrgRole role, int orgPermissions, L10n name, L10n address, List<ManagedQueue> queues
 });
 
 
@@ -877,12 +877,12 @@ class __$ManagedOrganizationCopyWithImpl<$Res>
 
 /// Create a copy of ManagedOrganization
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? sector = null,Object? subtypeId = null,Object? latitude = null,Object? longitude = null,Object? role = null,Object? orgPermissions = null,Object? name = null,Object? address = null,Object? queues = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? sector = null,Object? subtypeId = freezed,Object? latitude = null,Object? longitude = null,Object? role = null,Object? orgPermissions = null,Object? name = null,Object? address = null,Object? queues = null,}) {
   return _then(_ManagedOrganization(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,sector: null == sector ? _self.sector : sector // ignore: cast_nullable_to_non_nullable
-as String,subtypeId: null == subtypeId ? _self.subtypeId : subtypeId // ignore: cast_nullable_to_non_nullable
-as int,latitude: null == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
+as String,subtypeId: freezed == subtypeId ? _self.subtypeId : subtypeId // ignore: cast_nullable_to_non_nullable
+as int?,latitude: null == latitude ? _self.latitude : latitude // ignore: cast_nullable_to_non_nullable
 as double,longitude: null == longitude ? _self.longitude : longitude // ignore: cast_nullable_to_non_nullable
 as double,role: null == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
 as OrgRole,orgPermissions: null == orgPermissions ? _self.orgPermissions : orgPermissions // ignore: cast_nullable_to_non_nullable

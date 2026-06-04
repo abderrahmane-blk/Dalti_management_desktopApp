@@ -33,7 +33,7 @@ abstract class ManagedOrganizationDto with _$ManagedOrganizationDto {
   const factory ManagedOrganizationDto({
     required int id,
     required String sector,
-    required int subtypeId,
+    int? subtypeId,
     required double latitude,
     required double longitude,
     required String role,

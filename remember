@@ -1,0 +1,29 @@
+  1. History TODO comment (history_screen.dart) — // TODO(filters-range) reminding that filters must only ever search the fetched range and keep showing the user the active loaded range. Nothing else changed there.
+
+  2. Today page (queue_board)
+  - Search by filters — front-end-only, over the board already in memory. New BoardFilters (status chips + name/phone text + service-point dropdown), a collapsible BoardFilterBar, a "Showing X of Y" note, and a
+  toggle in the header. No extra requests; doesn't touch the 10s polling. 
+  - "Call to" dropdown — Don't call to a service point / Ask each time / two placeholder service points, per your choice. UI-only: the selection is remembered but the call endpoints take no service point yet, so
+  it's marked // TODO(call-to).
+  
+  3. Organization page (new lib/features/organization/ slice, reached from the sidebar's "Organization")
+  - Org info + Owner (derived from the members list) sections.
+  - Queues section — lists the org's queues, per-queue Edit + "Add a new queue" → QueueFormDialog. UI-only (// TODO(queues)).
+  - Service points section — placeholder rows, per-item Edit + "Add a service point" → ServicePointFormDialog. UI-only (// TODO(service-points)).
+  - Members section — count + "View members" → full OrgMembersScreen with add / edit-permissions / remove (with "are you sure?" confirm). Wired to /orgs/{id}/members. Gated on MemberManage so it never fires a
+  guaranteed 403.
+  - Edit organization button → EditOrgDialog (sector + 3-language name/address, pre-filled). Wired to PUT /orgs/{id}, and on success it updates the selected workspace so the page + sidebar reflect the change
+  immediately.
+
+  Decisions worth flagging
+
+  - Member photos: GET /orgs/{id}/members returns no photo URL — only /orgs/{id}/data does. I used the members endpoint (it carries the permission bitmask needed for editing) and render initials avatars, with a // 
+  TODO(member-photos) to merge the two if you want the richer profile.
+  - Permission presets map to the backend bitmasks: Operator=384, Manager=480, Owner=511.
+
+  Not verified
+
+  I couldn't exercise this against a live backend (no running server/seed data here). To check end-to-end: start the backend, then flutter run -d linux --dart-define=ACCESS_TOKEN=<jwt>, open Organization → edit org
+  / manage members, and open a queue → Today → filters + call-to dropdown.
+
+  I saved a short project memory noting the queues + service-points sections are UI-only and the exact endpoints to wire when you give the word.

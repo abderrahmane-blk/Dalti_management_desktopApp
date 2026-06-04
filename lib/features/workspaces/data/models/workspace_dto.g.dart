@@ -29,7 +29,7 @@ _ManagedOrganizationDto _$ManagedOrganizationDtoFromJson(
 ) => _ManagedOrganizationDto(
   id: (json['id'] as num).toInt(),
   sector: json['sector'] as String,
-  subtypeId: (json['subtypeId'] as num).toInt(),
+  subtypeId: (json['subtypeId'] as num?)?.toInt(),
   latitude: (json['latitude'] as num).toDouble(),
   longitude: (json['longitude'] as num).toDouble(),
   role: json['role'] as String,
