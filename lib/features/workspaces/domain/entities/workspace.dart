@@ -26,6 +26,21 @@ abstract class L10n with _$L10n {
       : fr.isNotEmpty
           ? fr
           : ar;
+
+  /// Resolves text using [primary] first, then the remaining [fallback] codes.
+  /// Falls back to [display] if nothing in the list yields a non-empty value.
+  String displayWith(String primary, List<String> fallback) {
+    final order = [primary, ...fallback.where((l) => l != primary)];
+    for (final lang in order) {
+      final v = switch (lang) {
+        'ar' => ar,
+        'fr' => fr,
+        _ => en,
+      };
+      if (v.isNotEmpty) return v;
+    }
+    return display;
+  }
 }
 
 /// A queue the user can see/operate within a [ManagedOrganization].

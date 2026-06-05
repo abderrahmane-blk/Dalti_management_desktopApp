@@ -4,6 +4,7 @@ import 'package:desktop_turn_management/features/home/presentation/widgets/home_
 import 'package:desktop_turn_management/features/organization/presentation/screens/organization_screen.dart';
 import 'package:desktop_turn_management/features/queue_board/presentation/screens/today_screen.dart';
 import 'package:desktop_turn_management/features/queue_history/presentation/screens/history_screen.dart';
+import 'package:desktop_turn_management/features/settings/presentation/widgets/settings_dialog.dart';
 import 'package:desktop_turn_management/features/walk_in/presentation/screens/walk_in_screen.dart';
 import 'package:desktop_turn_management/features/workspaces/domain/entities/workspace.dart';
 import 'package:desktop_turn_management/features/workspaces/presentation/providers/selected_workspace.dart';
@@ -61,8 +62,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             onToggle: () => setState(() => _expanded = !_expanded),
             onSelect: (destination) =>
                 setState(() => _destination = destination),
-            onSettings: () =>
-                setState(() => _destination = const SettingsDestination()),
+            onSettings: () => showDialog<void>(
+              context: context,
+              builder: (_) => const SettingsDialog(),
+            ),
             onLogout: () {
               ref.read(selectedWorkspaceProvider.notifier).clear();
               context.go(AppRoutes.login);
