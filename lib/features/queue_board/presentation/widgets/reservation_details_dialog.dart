@@ -8,7 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Popup for a single reservation: its details plus the operator actions —
 /// call/recall (hidden when rejected), an "Other actions" status menu, and
-/// "Send to next queue" (only when the queue has a next queue).
+/// "Send to next queue" (only when the queue has a next queue *and* the status
+/// still allows it — see [ReservationStatus.canPassToNextQueue]).
 class ReservationDetailsDialog extends ConsumerWidget {
   const ReservationDetailsDialog({
     super.key,
@@ -106,7 +107,7 @@ class ReservationDetailsDialog extends ConsumerWidget {
             ),
           ),
         ),
-        if (hasNextQueue)
+        if (hasNextQueue && reservation.status.canPassToNextQueue)
           OutlinedButton(
             onPressed: () => _run(
               context,

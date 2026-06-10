@@ -52,6 +52,20 @@ enum ReservationStatus {
           false,
         _ => true,
       };
+
+  /// Whether an operator may pass a reservation in this status to the next
+  /// queue. Blocked once it's deferred, cancelled, pending-reschedule, rejected
+  /// or already passed — the operator must change the status first. Drives
+  /// whether the "Send to next queue" action is offered.
+  bool get canPassToNextQueue => switch (this) {
+        deferred ||
+        cancelled ||
+        pendingReschedule ||
+        rejected ||
+        passedToNextQueue =>
+          false,
+        _ => true,
+      };
 }
 
 /// A reservation as it appears on a queue's live board (`GET
