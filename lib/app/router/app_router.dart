@@ -1,6 +1,7 @@
 import 'package:desktop_turn_management/features/auth/presentation/screens/login_screen.dart';
 import 'package:desktop_turn_management/features/home/presentation/screens/home_screen.dart';
 import 'package:desktop_turn_management/features/reservations/presentation/screens/reservations_screen.dart';
+import 'package:desktop_turn_management/features/workspaces/presentation/screens/create_organization_screen.dart';
 import 'package:desktop_turn_management/features/workspaces/presentation/screens/workspace_selection_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -14,6 +15,9 @@ abstract final class AppRoutes {
 
   /// Screen 2 — choose which organization to manage.
   static const String workspaceSelection = '/select';
+
+  /// Form to create a brand-new organization (reached from selection).
+  static const String createOrganization = '/select/create';
 
   /// The home shell (sidebar + content) for the chosen organization.
   static const String home = '/home';
@@ -42,6 +46,10 @@ GoRouter goRouter(Ref ref) {
       GoRoute(
         path: AppRoutes.workspaceSelection,
         builder: (context, state) => const WorkspaceSelectionScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.createOrganization,
+        builder: (context, state) => const CreateOrganizationScreen(),
       ),
       GoRoute(
         path: AppRoutes.home,

@@ -8,6 +8,23 @@ import 'package:desktop_turn_management/features/workspaces/presentation/provide
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+/// Human labels for `SpecialtyItem.category` codes. Mirrors the backend field
+/// map in `Shared/Data/DbSeeder.cs` (no localized lookup table exists yet).
+/// UI-only — used to group/filter the specialty chips, nothing is sent.
+const Map<int, String> _categoryNames = {
+  1: 'Medical',
+  2: 'Administrative',
+  3: 'Financial',
+  4: 'Education',
+  5: 'Legal',
+  6: 'Utilities',
+  7: 'Transport',
+  8: 'Postal',
+};
+
+String _categoryLabel(int? code) =>
+    code == null ? 'Uncategorized' : _categoryNames[code] ?? 'Category $code';
+
 /// Full organization-edit dialog — 90 % of the viewport height, ~75 % width.
 /// Two sections:
 ///   1. Info (sector, subtype, EN/FR/AR name + address) → `PUT /orgs/{id}`
@@ -47,6 +64,12 @@ class _EditOrgDialogState extends ConsumerState<EditOrgDialog> {
 
   /// Working set the user sees / edits — starts equal to [_originalLinkedIds].
   Set<int> _selectedIds = {};
+
+  /// UI-only category filter. `null` = a sentinel meaning "All categories".
+  /// Selection in [_selectedIds] persists across filter changes, so the user
+  /// can pick specialties from several categories in one session.
+  int? _categoryFilter;
+  bool _showAllCategories = true;
 
   bool _savingSpecialties = false;
 
@@ -419,6 +442,54 @@ class _EditOrgDialogState extends ConsumerState<EditOrgDialog> {
 
   // ── Specialties section ───────────────────────────────────────────────────
 
+  /// The categories actually present in the catalog, sorted by their code.
+  List<int> _availableCategories() {
+    final codes = _allSpecialties.map((s) => s.category ?? 0).toSet().toList()
+      ..sort();
+    return codes;
+  }
+
+  /// Specialties matching the current category filter ("All" shows everything).
+  List<SpecialtyItem> _visibleSpecialties() {
+    if (_showAllCategories) return _allSpecialties;
+    return _allSpecialties
+        .where((s) => (s.category ?? 0) == (_categoryFilter ?? 0))
+        .toList();
+  }
+
+  /// A row of choice chips: "All" plus one per category in the catalog.
+  /// Filtering is purely visual — it never clears [_selectedIds].
+  Widget _buildCategoryFilter(BuildContext context) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 4,
+      children: [
+        ChoiceChip(
+          label: const Text('All'),
+          selected: _showAllCategories,
+          onSelected: _savingSpecialties
+              ? null
+              : (_) => setState(() {
+                    _showAllCategories = true;
+                    _categoryFilter = null;
+                  }),
+        ),
+        for (final code in _availableCategories())
+          ChoiceChip(
+            label: Text(_categoryLabel(code == 0 ? null : code)),
+            selected: !_showAllCategories &&
+                (_categoryFilter ?? 0) == code,
+            onSelected: _savingSpecialties
+                ? null
+                : (_) => setState(() {
+                      _showAllCategories = false;
+                      _categoryFilter = code == 0 ? null : code;
+                    }),
+          ),
+      ],
+    );
+  }
+
   Widget _buildSpecialtiesSection(BuildContext context) {
     return _SectionCard(
       title: 'Specialties',
@@ -434,26 +505,44 @@ class _EditOrgDialogState extends ConsumerState<EditOrgDialog> {
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Wrap(
-                          spacing: 8,
-                          runSpacing: 4,
-                          children: [
-                            for (final spec in _allSpecialties)
-                              FilterChip(
-                                label: Text(spec.displayName),
-                                selected: _selectedIds.contains(spec.id),
-                                onSelected: _savingSpecialties
-                                    ? null
-                                    : (on) => setState(() {
-                                          if (on) {
-                                            _selectedIds.add(spec.id);
-                                          } else {
-                                            _selectedIds.remove(spec.id);
-                                          }
-                                        }),
+                        _buildCategoryFilter(context),
+                        const SizedBox(height: 8),
+                        Text(
+                          '${_selectedIds.length} selected',
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                color: Theme.of(context).colorScheme.outline,
                               ),
-                          ],
                         ),
+                        const SizedBox(height: 8),
+                        Builder(builder: (context) {
+                          final visible = _visibleSpecialties();
+                          if (visible.isEmpty) {
+                            return const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 8),
+                              child: Text('No specialties in this category.'),
+                            );
+                          }
+                          return Wrap(
+                            spacing: 8,
+                            runSpacing: 4,
+                            children: [
+                              for (final spec in visible)
+                                FilterChip(
+                                  label: Text(spec.displayName),
+                                  selected: _selectedIds.contains(spec.id),
+                                  onSelected: _savingSpecialties
+                                      ? null
+                                      : (on) => setState(() {
+                                            if (on) {
+                                              _selectedIds.add(spec.id);
+                                            } else {
+                                              _selectedIds.remove(spec.id);
+                                            }
+                                          }),
+                                ),
+                            ],
+                          );
+                        }),
                         const SizedBox(height: 16),
                         Align(
                           alignment: Alignment.centerRight,

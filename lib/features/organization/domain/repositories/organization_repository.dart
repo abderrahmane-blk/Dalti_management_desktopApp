@@ -1,5 +1,6 @@
 import 'package:desktop_turn_management/core/result/result.dart';
 import 'package:desktop_turn_management/features/organization/domain/entities/catalog_items.dart';
+import 'package:desktop_turn_management/features/organization/domain/entities/org_create_draft.dart';
 import 'package:desktop_turn_management/features/organization/domain/entities/org_edit_draft.dart';
 import 'package:desktop_turn_management/features/organization/domain/entities/org_member.dart';
 import 'package:desktop_turn_management/features/organization/domain/entities/queue_full_data.dart';
@@ -22,6 +23,9 @@ abstract interface class OrganizationRepository {
 
   /// `DELETE /orgs/{orgId}/members/{userId}`.
   Future<Result<void>> removeMember(int orgId, String userId);
+
+  /// `POST /orgs` — creates an org owned by the caller; returns its new id.
+  Future<Result<int>> createOrg(OrgCreateDraft draft);
 
   /// `PUT /orgs/{orgId}` — partial update of the org's editable fields.
   Future<Result<void>> updateOrg(int orgId, OrgEditDraft draft);

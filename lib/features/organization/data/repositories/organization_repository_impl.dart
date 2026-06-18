@@ -4,6 +4,7 @@ import 'package:desktop_turn_management/features/organization/data/datasources/o
 import 'package:desktop_turn_management/features/organization/data/datasources/org_remote_data_source.dart';
 import 'package:desktop_turn_management/features/organization/data/datasources/queue_remote_data_source.dart';
 import 'package:desktop_turn_management/features/organization/domain/entities/catalog_items.dart';
+import 'package:desktop_turn_management/features/organization/domain/entities/org_create_draft.dart';
 import 'package:desktop_turn_management/features/organization/domain/entities/org_edit_draft.dart';
 import 'package:desktop_turn_management/features/organization/domain/entities/org_member.dart';
 import 'package:desktop_turn_management/features/organization/domain/entities/queue_full_data.dart';
@@ -57,6 +58,11 @@ class OrganizationRepositoryImpl implements OrganizationRepository {
   @override
   Future<Result<void>> removeMember(int orgId, String userId) {
     return guard(() => _members.removeMember(orgId, userId));
+  }
+
+  @override
+  Future<Result<int>> createOrg(OrgCreateDraft draft) {
+    return guard(() => _org.createOrg(draft));
   }
 
   @override

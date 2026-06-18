@@ -22,18 +22,36 @@ class WorkspaceSelectionScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Choose what to manage'),
         actions: [
+          TextButton.icon(
+            onPressed: () => context.go(AppRoutes.createOrganization),
+            icon: const Icon(Icons.add_business_outlined),
+            label: const Text('Create organization'),
+          ),
           TextButton(
             onPressed: notifier.refresh,
             child: const Text('Refresh'),
           ),
+          const SizedBox(width: 8),
         ],
       ),
       body: workspaces.when(
         data: (workspace) {
           final orgs = workspace.organizations;
           if (orgs.isEmpty) {
-            return const Center(
-              child: Text('You have no organizations to manage.'),
+            return Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text('You have no organizations to manage.'),
+                  const SizedBox(height: 12),
+                  FilledButton.icon(
+                    onPressed: () =>
+                        context.go(AppRoutes.createOrganization),
+                    icon: const Icon(Icons.add_business_outlined),
+                    label: const Text('Create an organization'),
+                  ),
+                ],
+              ),
             );
           }
           return ListView.builder(

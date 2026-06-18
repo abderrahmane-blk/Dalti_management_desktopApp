@@ -92,7 +92,7 @@ class _MemberEditDialogState extends State<MemberEditDialog> {
     return AlertDialog(
       title: Text(member.displayName),
       content: SizedBox(
-        width: 380,
+        width: 460,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,6 +103,7 @@ class _MemberEditDialogState extends State<MemberEditDialog> {
             const SizedBox(height: 16),
             DropdownButtonFormField<MemberPreset>(
               initialValue: _preset,
+              isExpanded: true,
               decoration: const InputDecoration(
                 labelText: 'Permissions',
                 border: OutlineInputBorder(),
@@ -113,12 +114,24 @@ class _MemberEditDialogState extends State<MemberEditDialog> {
                     value: preset,
                     child: Text(
                       preset == MemberPreset.custom
-                          ? 'Custom (${member.permissions}) — pick a preset to change'
-                          : '${preset.label} — ${preset.description}',
+                          ? 'Custom (${member.permissions})'
+                          : preset.label,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
               ],
-              onChanged: (p) => setState(() => _preset = p ?? _preset),
+              onChanged: _busy
+                  ? null
+                  : (p) => setState(() => _preset = p ?? _preset),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              _preset == MemberPreset.custom
+                  ? 'This member has a custom permission set. Pick a preset to change it.'
+                  : _preset.description,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context).colorScheme.outline,
+                  ),
             ),
           ],
         ),
